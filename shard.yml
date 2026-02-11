@@ -7,6 +7,11 @@ authors:
 targets:
   backend-crystal:
     main: src/app.cr
+dependencies:
+  jwt:
+    github: crystal-community/jwt
+  dotenv:
+    github: gdotdesign/cr-dotenv
 
 crystal: '>= 1.17.1'
 

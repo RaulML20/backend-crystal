@@ -1,10 +1,11 @@
 require "http/server"
 
-require "./routes/router"
+require "./router/router"
 require "./routes/user.route"
 
 class HTTP::Server::Context
   property params = Hash(String, String).new
+  property user_id : String? = nil
 end
 
 router = Router.new

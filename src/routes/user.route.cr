@@ -12,7 +12,7 @@ class UserRoute
             context.response.print "Create a new user"
         end
 
-        router.addRoute("GET", "#{baseURL}/read/:id") do |context|
+        router.addRoute("GET", "#{baseURL}/read/:id", auth: true) do |context|
             context.response.content_type = "text/plain"
 
             id = context.params["id"]?
