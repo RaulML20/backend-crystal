@@ -1,0 +1,13 @@
+name: backend
+version: 0.1.0
+
+authors:
+  - Raúl <meizosolopezraul@gmail.com>
+
+targets:
+  backend-crystal:
+    main: src/app.cr
+
+crystal: '>= 1.17.1'
+
+license: MIT
