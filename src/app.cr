@@ -6,7 +6,7 @@ require "./routes/user.route"
 
 Database.init
 
-db_pool = Database.db
+db = Database.db
 
 class HTTP::Server::Context
   property params = Hash(String, String).new
@@ -14,7 +14,7 @@ class HTTP::Server::Context
 end
 
 router = Router.new
-UserRoute.new(router, db_pool)
+UserRoute.new(router, db)
 
 server = HTTP::Server.new do |context|
   router.handle(context)
