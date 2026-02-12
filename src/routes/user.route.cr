@@ -1,23 +1,23 @@
+require "../controllers/user.controller"
+
 class UserRoute
-    def initialize(router)
+    def initialize(router : Router, db_pool : DB::Database)
         baseURL = "/users"
 
+        #user_repository = UserRepository.new(Database)
+        #user_service = UserController.new(user_repository)
+        user_controller = UserController.new()
+
         router.addRoute("GET", "#{baseURL}/readAll") do |context|
-            context.response.content_type = "text/plain"
-            context.response.print "List of users"
+            user_controller.readAll(context)
         end
 
         router.addRoute("POST", "#{baseURL}/add") do |context|
-            context.response.content_type = "text/plain"
-            context.response.print "Create a new user"
+            user_controller.create(context)
         end
 
         router.addRoute("GET", "#{baseURL}/read/:id", auth: true) do |context|
-            context.response.content_type = "text/plain"
-
-            id = context.params["id"]?
-
-            context.response.print "User with ID #{id}"
+            user_controller.read(context)
         end
     end
 end

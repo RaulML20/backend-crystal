@@ -4,24 +4,25 @@ require "dotenv"
 Dotenv.load "#{__DIR__}/../config/.env"
 
 module Auth
-    SECRET = ENV["SECRET_KEY"]? || ""
+    SECRET = ENV["SECRET_KEY"]? || raise "SECRET_KEY not defined in .env file"
     
     def self.validate(context : HTTP::Server::Context) : Bool
-        auth_header = context.request.headers["Authorization"]?
+        begin
+            token = context.request.cookies["token"]?
         
-        if auth_header && auth_header.starts_with?("Bearer ")
-            token = auth_header.split(" ").last
-        
-            begin
-                payload, _header = JWT.decode(token, SECRET, JWT::Algorithm::HS256)
-                
-                context.user_id = payload["sub"].to_s
-                return true
-            rescue
+            unless token
                 return false
             end
+            
+            payload, _header = JWT.decode(token.value, SECRET, JWT::Algorithm::HS256)
+                
+            context.user_id = payload["sub"].to_s
+            return true
+        rescue JWT::DecodeError
+            return false
+        rescue e : Exception
+            puts "Unexpected error: #{e.message}"
+            return false
         end
-        
-        false
     end
 end

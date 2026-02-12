@@ -12,6 +12,8 @@ dependencies:
     github: crystal-community/jwt
   dotenv:
     github: gdotdesign/cr-dotenv
+  pg:
+    github: will/crystal-pg
 
 crystal: '>= 1.17.1'
 
