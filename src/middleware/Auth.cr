@@ -14,21 +14,21 @@ module Auth
             
             payload, _ = JWT.decode(token.value, SECRET, JWT::Algorithm::HS256)
                 
-            exp = payload["exp"]?
+            exp_val = payload["exp"]?
 
-            return false unless exp
+            return false unless exp_val
 
             exp_i =
                 case exp_val
                 when Int32, Int64 then exp_val.to_i64
-                when Float64      then exp_val.to_i64
-                when String       then exp_val.to_i64? || return false
+                when Float64 then exp_val.to_i64
+                when String then exp_val.to_i64? || return false
                 else
                     return false
                 end
 
-            LEEWAY = 10
-            return false if Time.utc.to_unix > (exp_i + LEEWAY)
+            leeway = 10
+            return false if Time.utc.to_unix > (exp_i + leeway)
 
             sub = payload["sub"]?.try(&.to_s)
 
