@@ -1,6 +1,8 @@
 require "http/server"
 
 require "./config/database"
+require "./config/security"
+require "./config/cors"
 require "./router/router"
 require "./routes/user.route"
 
@@ -17,6 +19,11 @@ router = Router.new
 UserRoute.new(router, db)
 
 server = HTTP::Server.new do |context|
+  Security.apply_security_headers(context.response)
+
+  handled = CORS.handle(context)
+  next if handled
+
   router.handle(context)
 end
 
