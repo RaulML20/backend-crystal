@@ -16,11 +16,13 @@ class UserController
     def add(context : HTTP::Server::Context)
         context.response.content_type = "application/json"
 
-        name = context.params["name"]?
-        email = context.params["email"]?
+        #body = context.request.body.try(&.gets_to_end) || ""
+        #dto = CreateUserDTO.from_json(body)
         
-        id = @user_service.add(name, email)
+        #id = @user_service.add(name, email)
 
+        raise GenericException.new("ID parameter not provided", 400)
+        
         context.response.print "Created new user"
     end
 
