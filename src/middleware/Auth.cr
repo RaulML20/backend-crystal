@@ -1,7 +1,4 @@
 require "jwt"
-require "dotenv"
-
-Dotenv.load "#{__DIR__}/../config/.env"
 
 module Auth
     SECRET = ENV["SECRET_KEY"]? || raise "SECRET_KEY not defined in .env file"

@@ -1,4 +1,7 @@
 require "http/server"
+require "dotenv"
+
+Dotenv.load "#{__DIR__}/config/.env"
 
 require "./config/database"
 require "./config/security"
@@ -38,6 +41,6 @@ server = HTTP::Server.new do |context|
   end
 end
 
-address = server.bind_tcp 8080
+address = server.bind_tcp ENV["PORT"]?.try(&.to_i) || 8080
 puts "Listening on http://#{address}"
 server.listen
