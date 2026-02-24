@@ -37,7 +37,7 @@ server = HTTP::Server.new do |context|
   rescue ex
     context.response.status_code = 500
     context.response.content_type = "application/json"
-    context.response.print({ error: "Internal server error" }.to_json)
+    context.response.print({ error: "Internal server error: #{ex.message}" }.to_json)
   end
 end
 

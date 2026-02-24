@@ -36,8 +36,8 @@ module Auth
             return true
         rescue JWT::DecodeError
             return false
-        rescue e : Exception
-            puts "Unexpected error: #{e.message}"
+        rescue ex : Exception
+            puts "Unexpected error: #{ex.message}"
             return false
         end
     end
