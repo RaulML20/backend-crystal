@@ -15,13 +15,13 @@ class UserRepository
     end 
 
     def add(user : User) : User
-        id = nil
+        #id = nil
 
-        with_transaction do |tx|
-            id = tx.connection.query_one("INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id", user.name, user.email, as: Int32)
-        end
+        #with_transaction do |tx|
+            #id = tx.connection.query_one("INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id", user.name, user.email, as: Int32)
+        #end
 
+        id = @db.query_one("INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id", user.name, user.email, as: Int32)
         User.new(user.name, user.email, id)
     end
-
 end

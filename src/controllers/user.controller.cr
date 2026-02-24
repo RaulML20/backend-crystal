@@ -31,6 +31,16 @@ class UserController
 
         body = context.request.body.try(&.gets_to_end) || raise GenericException.new("Body not provided", 400)
 
+        if body.nil? || body.strip.empty?
+            raise GenericException.new("Body not provided", 400)
+        end
+
+        begin
+            dto = CreateUserDTO.from_json(body)
+        rescue ex : JSON::ParseException
+            raise GenericException.new("Invalid JSON body", 400)
+        end
+
         dto = CreateUserDTO.from_json(body)
 
         dto.validate!

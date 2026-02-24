@@ -33,7 +33,7 @@ server = HTTP::Server.new do |context|
   rescue ex : GenericException
     context.response.status_code = ex.status
     context.response.content_type = "application/json"
-    context.response.print({ error: ex.message }.to_json)
+    context.response.print({ ok: 0, error: ex.message }.to_json)
   rescue ex
     context.response.status_code = 500
     context.response.content_type = "application/json"
